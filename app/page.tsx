@@ -1,69 +1,10 @@
-import Image from "next/image";
-
-export default function Home() {
-  return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
-  );
+import Link from 'next/link';
+import MovieExplorer from './components/MovieExplorer';
+import { MovieError, searchMovies } from '@/lib/omdb';
+import type { Movie } from '@/lib/movies';
+export const dynamic = 'force-dynamic';
+export default async function Home(){
+ let movies:Movie[]=[];let error='';
+ try{movies=(await searchMovies('Batman','1','movie')).Search;}catch(cause){error=cause instanceof MovieError?cause.message:'El catálogo no está disponible.';}
+ return <div className="cinema-app"><header className="cinema-nav"><Link href="/" className="brand"><span>◈</span> FRAME.</Link><a href="#explorar">Explorar catálogo ↗</a><span className="nav-note">CINE & SERIES / PARA MENTES CURIOSAS</span></header><main className="cinema-main"><section className="cinema-hero"><div className="hero-top"><p className="eyebrow">● PARA LOS QUE VIVEN LAS HISTORIAS</p><span>EL SIGUIENTE GRAN DESCUBRIMIENTO</span></div><h1>Una buena historia<br/>merece <em>ser encontrada.</em></h1><div className="hero-bottom"><p>Películas que se quedan contigo. Series que no puedes soltar.<br/>Encuentra qué ver y descubre todo lo que hay detrás.</p><a href="#explorar" aria-label="Ir al buscador">↓</a></div><div className="hero-lines"><span>01 / EXPLORA</span><span>02 / DESCUBRE</span><span>03 / ELIGE TU HISTORIA</span></div></section><MovieExplorer initial={movies} initialError={error}/><section className="cinema-note"><span>◈</span><p>No es solo qué ver.<br/><strong>Es qué historia quieres vivir.</strong></p><small>Información y pósters de OMDb.<br/>Disponibilidad de streaming no incluida.</small></section></main><footer className="cinema-footer"><span>FRAME. / LABORATORIO 09</span><nav><Link href="/pokemon-csr">Pokémon CSR</Link><Link href="/pokemon-ssr">Pokémon servidor</Link><Link href="/weather">Weather</Link></nav><span>Hecho para explorar.</span></footer></div>;
 }

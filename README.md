@@ -1,36 +1,39 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# FRAME — Galería de películas y series
 
-## Getting Started
+Tarea del Laboratorio 09. Next.js App Router, React, TypeScript, Tailwind CSS y OMDb. Conserva los ejercicios `/pokemon-csr`, `/pokemon-ssr` y `/weather`.
 
-First, run the development server:
+## Desarrollo
 
-```bash
+```powershell
+npm ci
+Copy-Item .env.example .env.local
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Configura `OMDB_API_KEY` en `.env.local` con una clave propia activada en OMDb. No sobrescribas tu archivo si ya existe. Abre http://localhost:3000. La clave permanece en el servidor; no usa el prefijo NEXT_PUBLIC ni se envía al navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Requisitos y decisiones de renderizado
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Inicio SSR:** `app/page.tsx` fuerza renderizado dinámico y obtiene una selección de películas de Batman antes de entregar la página. OMDb no tiene un ranking de popularidad: se usa una selección temática de una saga conocida, sin presentar sus resultados como ranking.
+- **Búsqueda CSR:** `MovieExplorer.tsx` utiliza `use client`, `useState` y `useEffect`; espera 450 ms tras escribir, cancela peticiones anteriores y actualiza resultados sin recargar. Tiene filtros de películas/series y paginación.
+- **Detalles:** modal nativo con sinopsis completa, reparto, dirección, premios, calificaciones y enlace a IMDb. Cierra con Escape, botón o clic en el fondo, y conserva la búsqueda.
+- **API interna:** `/api/movies?q=batman&type=movie&page=1` y `/api/movies?id=tt0372784`. Valida parámetros, protege la clave, limita la espera y presenta errores de búsqueda, configuración o proveedor. Consultas a OMDb cacheadas durante cinco minutos para reducir consumo de cuota.
+- **Tailwind y diseño:** Tailwind global y utilidades, estilos de galería responsive, pósters alternativos, estados de carga, foco visible y movimiento reducido. Los ejercicios previos mantienen sus rutas.
 
-## Learn More
+La lista inicial se beneficia de contenido disponible en el HTML; la búsqueda usa CSR porque depende de entradas y filtros del usuario. Consultar una API interna desde CSR sigue siendo interacción en el cliente, sin revelar la credencial de OMDb.
 
-To learn more about Next.js, take a look at the following resources:
+## Verificación
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```powershell
+npm run lint
+npx tsc --noEmit
+npm run build
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Prueba: inicio con clave válida; buscar Batman y Suits; filtrar; avanzar/retroceder páginas; abrir/cerrar detalles con Escape; búsqueda inexistente; vista móvil; póster ausente. Los ejercicios Pokémon conservan advertencias de ESLint por sus imágenes HTML.
 
-## Deploy on Vercel
+## Vercel (siguiente etapa)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Importa `C5-PHO/DAWA-S9`, rama `main`, Framework Next.js. La raíz del repositorio contiene package.json: deja Root Directory en `.`. Añade `OMDB_API_KEY` en Environment Variables para Production (y Preview si lo necesitas). Usa la versión de Node compatible con Next.js, ejecuta el build y despliega. No subas `.env.local`; `.env.example` solo incluye un marcador.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Documentación: https://www.omdbapi.com/ y https://nextjs.org/docs/app/guides/environment-variables
