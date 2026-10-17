@@ -37,3 +37,14 @@ Prueba: inicio con clave válida; buscar Batman y Suits; filtrar; avanzar/retroc
 Importa `C5-PHO/DAWA-S9`, rama `main`, Framework Next.js. La raíz del repositorio contiene package.json: deja Root Directory en `.`. Añade `OMDB_API_KEY` en Environment Variables para Production (y Preview si lo necesitas). Usa la versión de Node compatible con Next.js, ejecuta el build y despliega. No subas `.env.local`; `.env.example` solo incluye un marcador.
 
 Documentación: https://www.omdbapi.com/ y https://nextjs.org/docs/app/guides/environment-variables
+
+## Organización de la galería
+
+- `app/components/MovieExplorer.tsx`: coordina los filtros, colecciones y paginación.
+- `app/hooks/useMovieSearch.ts`: debounce, cancelación, resultados asociados a la consulta y reintentos.
+- `app/components/movies/MoviePoster.tsx`: póster reutilizable con alternativa si la imagen falla.
+- `app/components/movies/MovieDetails.tsx`: modal accesible, consulta del detalle, cierre por teclado y restauración de foco.
+- `app/gallery.css`: estilos de la galería aislados de los ejercicios de Pokémon y Weather.
+- `lib/omdb.ts`: integración exclusiva del servidor con la API externa.
+
+Las colecciones temáticas son búsquedas de OMDb, no rankings. El filtro de tipo funciona también sin texto. Las tarjetas de carga reemplazan resultados anteriores mientras se obtiene una nueva consulta. Los datos y la clave de OMDb no se persisten en el cliente.
