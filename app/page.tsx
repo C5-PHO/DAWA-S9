@@ -1,6 +1,8 @@
 import "./gallery.css";
+import "./motion.css";
 import Link from "next/link";
 import MovieExplorer from "./components/MovieExplorer";
+import GalleryMotion from "./components/GalleryMotion";
 import { MovieError, searchMovies } from "@/lib/omdb";
 import type { Movie } from "@/lib/movies";
 export const dynamic = "force-dynamic";
@@ -17,6 +19,7 @@ export default async function Home() {
   }
   return (
     <div className="cinema-app min-h-screen">
+      <GalleryMotion />
       <header className="cinema-nav">
         <Link href="/" className="brand">
           <span>◈</span> FRAME.
@@ -30,10 +33,15 @@ export default async function Home() {
             <p className="eyebrow">● PARA LOS QUE VIVEN LAS HISTORIAS</p>
             <span>EL SIGUIENTE GRAN DESCUBRIMIENTO</span>
           </div>
-          <h1>
-            Una buena historia
-            <br />
-            merece <em>ser encontrada.</em>
+          <h1 className="hero-title">
+            <span className="title-mask">
+              <span>Una buena historia</span>
+            </span>
+            <span className="title-mask">
+              <span>
+                merece <em>ser encontrada.</em>
+              </span>
+            </span>
           </h1>
           <div className="hero-bottom">
             <p>
@@ -52,7 +60,7 @@ export default async function Home() {
           </div>
         </section>
         <MovieExplorer initial={movies} initialError={error} />
-        <section className="cinema-note">
+        <section className="cinema-note" data-reveal>
           <span>◈</span>
           <p>
             No es solo qué ver.

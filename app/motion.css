@@ -1,0 +1,190 @@
+/* Motion language: title masks, contact-sheet rhythm and a short aperture reveal. */
+.title-mask {
+  display: block;
+  overflow: clip;
+  padding-bottom: 0.12em;
+  margin-bottom: -0.12em;
+}
+.title-mask > span {
+  display: block;
+}
+.hero-lines {
+  position: relative;
+  border-top-color: transparent;
+}
+.hero-lines::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: #cfd7cc;
+  transform-origin: left;
+}
+.movie-card {
+  transition: color 180ms ease;
+}
+.movie-card .poster img {
+  transition:
+    transform 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    filter 500ms ease;
+}
+.movie-card:hover .poster img,
+.movie-card:focus-visible .poster img {
+  transform: scale(1.035);
+  filter: saturate(1.08);
+}
+.card-action {
+  transition: transform 320ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+.card-action > span {
+  transition: transform 320ms ease;
+}
+.movie-card:hover .card-action > span {
+  transform: translate(2px, -2px);
+}
+.hero-bottom > a {
+  overflow: hidden;
+  transition:
+    background 250ms ease,
+    color 250ms ease;
+}
+.hero-bottom > a:hover {
+  background: #d8ed9c;
+  color: #102d29;
+}
+.collection-tabs button {
+  transition:
+    background 200ms ease,
+    border-color 200ms ease,
+    color 200ms ease;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:has(.cinema-app) {
+    scroll-behavior: smooth;
+  }
+  .cinema-nav {
+    animation: frame-fade 700ms ease both;
+  }
+  .hero-top {
+    animation: frame-fade 750ms 80ms ease both;
+  }
+  .title-mask > span {
+    animation: frame-title 1100ms cubic-bezier(0.22, 1, 0.36, 1) both;
+    animation-delay: 100ms;
+  }
+  .title-mask:nth-child(2) > span {
+    animation-delay: 230ms;
+  }
+  .hero-title em {
+    animation: frame-ink 1400ms 300ms ease both;
+  }
+  .hero-bottom {
+    animation: frame-fade 850ms 450ms ease both;
+  }
+  .hero-lines::before {
+    animation: frame-rule 1100ms 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .hero-lines > span {
+    animation: frame-fade 650ms 650ms ease both;
+  }
+  .hero-lines > span:nth-child(2) {
+    animation-delay: 740ms;
+  }
+  .hero-lines > span:nth-child(3) {
+    animation-delay: 830ms;
+  }
+  .cinema-hero::after {
+    animation: frame-aperture 1600ms 250ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .movie-dialog[open] {
+    animation: frame-dialog 320ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .movie-dialog[open]::backdrop {
+    animation: frame-fade 250ms ease both;
+  }
+  .movie-dialog .detail-grid {
+    animation: frame-detail 450ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+  .search-controls input {
+    transition: box-shadow 200ms ease;
+  }
+  .search-controls input:focus {
+    box-shadow: 0 0 0 4px #d8ed9c20;
+  }
+}
+@keyframes frame-title {
+  from {
+    transform: translateY(108%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes frame-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes frame-ink {
+  from {
+    color: #102d29;
+  }
+  to {
+    color: #6d8252;
+  }
+}
+@keyframes frame-rule {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+@keyframes frame-aperture {
+  from {
+    opacity: 0;
+    transform: scale(0.82) rotate(-12deg);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+@keyframes frame-dialog {
+  from {
+    opacity: 0;
+    transform: translateY(16px) scale(0.985);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+@keyframes frame-detail {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  html:has(.cinema-app) {
+    scroll-behavior: auto;
+  }
+  .cinema-app *,
+  .cinema-app *::before,
+  .cinema-app *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

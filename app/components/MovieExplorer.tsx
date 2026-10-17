@@ -41,6 +41,7 @@ export default function MovieExplorer({
     <>
       <section
         className="search-panel"
+        data-reveal
         id="explorar"
         aria-label="Buscador del catálogo"
       >
@@ -101,7 +102,7 @@ export default function MovieExplorer({
         aria-busy={result.loading}
         aria-labelledby="catalog-title"
       >
-        <div className="section-heading">
+        <div className="section-heading" data-reveal>
           <div>
             <p className="eyebrow">TU CATÁLOGO, A UN DESCUBRIMIENTO</p>
             <h2 id="catalog-title">{heading}</h2>

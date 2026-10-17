@@ -48,3 +48,7 @@ Documentación: https://www.omdbapi.com/ y https://nextjs.org/docs/app/guides/en
 - `lib/omdb.ts`: integración exclusiva del servidor con la API externa.
 
 Las colecciones temáticas son búsquedas de OMDb, no rankings. El filtro de tipo funciona también sin texto. Las tarjetas de carga reemplazan resultados anteriores mientras se obtiene una nueva consulta. Los datos y la clave de OMDb no se persisten en el cliente.
+
+## Movimiento
+
+`app/motion.css` contiene la secuencia de apertura por máscaras tipográficas y las transiciones del modal. `GalleryMotion.tsx` utiliza IntersectionObserver y Web Animations para revelar las portadas una sola vez al entrar en pantalla, también tras buscar. No intercepta eventos de rueda ni modifica el desplazamiento. La preferencia `prefers-reduced-motion` desactiva las animaciones y cancela las que estén en curso. El contenido sigue visible sin JavaScript; los observadores se liberan al salir de la página.
